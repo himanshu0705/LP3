@@ -5,47 +5,45 @@ class Node:
         self.left = None
         self.right = None
         self.huff = ''
-        
-def print_nodes(node,val=''):
+
+def print_nodes(node, val=''):
     newVal = val + str(node.huff)
-    
     if node.left:
-        print_nodes(node.left,newVal)
+        print_nodes(node.left, newVal)
     if node.right:
-        print_nodes(node.right,newVal)
+        print_nodes(node.right, newVal)
     if not node.left and not node.right:
-        print(f"{node.char} -> {newVal}")
-        
+        print(f'{node.char} -> {newVal}')
+
 def main():
-    chars = []
-    freqs = []
-    n = int(input("Enter the number of characters : "))
-    
-    for _ in range(n):
-        char = input("Enter character : ")
-        freq = int(input("Enter frequency : "))
-        chars.append(char)
-        freqs.append(freq)
-        
-    nodes =[]
-    
-    for i in range(n):
-        nodes.append(Node(chars[i],freqs[i]))
-    
-    while len(nodes)>1:
-        nodes = sorted(nodes, key=lambda x:x.freq)
-        
+    string = input("Enter a string : ").replace(" ", "").lower()
+
+    frequency = {}
+    for char in string:
+        if char in frequency:
+            frequency[char] += 1
+        else:
+            frequency[char] = 1
+    print(frequency)
+
+    nodes = []
+    for char,freq in frequency.items():
+        nodes.append(Node(char,freq))
+
+    while(len(nodes) > 1):
+        nodes = sorted(nodes, key=lambda x : x.freq)
         left = nodes[0]
         right = nodes[1]
         left.huff = 0
         right.huff = 1
+
         newNode = Node(left.char + right.char, left.freq + right.freq)
         newNode.left = left
         newNode.right = right
         nodes.remove(left)
         nodes.remove(right)
         nodes.append(newNode)
-        
+
     print_nodes(nodes[0])
-    
+
 main()
