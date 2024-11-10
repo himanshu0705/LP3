@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: GPL-3.0
+
+pragma solidity ^0.8.2;
+
+contract Demo{
+    uint private newBal;
+
+    constructor(uint initialBalance) { 
+        newBal = initialBalance;
+    }
+
+    function deposit(uint x) public{
+        newBal += x;
+    }
+
+    function withdraw(uint x) public{
+        if (x > newBal){
+            revert("Insufficent Balance");
+        }
+        newBal -= x;
+    }
+
+    function show() public view returns(uint){
+        return newBal;
+    }
+}
